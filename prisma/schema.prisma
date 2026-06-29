@@ -1,0 +1,101 @@
+// ScaliSite Lead Tracker — Prisma schema
+// Postgres (Neon). Connection string is read from DATABASE_URL in .env.local.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Pooled connection (Neon pooler host). Append ?pgbouncer=true&connection_limit=1
+  // to the URL when using the pooler.
+  url = env("DATABASE_URL")
+  // Optional direct (non-pooled) connection used for migrations. Falls back to
+  // DATABASE_URL when DIRECT_URL is not set.
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL_SENT
+  WON
+  LOST
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  hashedPassword String
+  role           Role     @default(MEMBER)
+  createdAt      DateTime @default(now())
+
+  assignedLeads  Lead[]     @relation("AssignedLeads")
+  createdLeads   Lead[]     @relation("CreatedLeads")
+  notes          Note[]
+  activities     Activity[]
+
+  @@index([role])
+}
+
+model Lead {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  company   String?
+  source    String
+  status    LeadStatus @default(NEW)
+  value     Float?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  assignedToId String
+  assignedTo   User   @relation("AssignedLeads", fields: [assignedToId], references: [id])
+
+  createdById String
+  createdBy   User   @relation("CreatedLeads", fields: [createdById], references: [id])
+
+  notes      Note[]
+  activities Activity[]
+
+  @@index([status])
+  @@index([assignedToId])
+  @@index([createdAt])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  leadId String
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  @@index([leadId])
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  action    String
+  createdAt DateTime @default(now())
+
+  leadId String?
+  lead   Lead?  @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([leadId])
+  @@index([createdAt])
+}

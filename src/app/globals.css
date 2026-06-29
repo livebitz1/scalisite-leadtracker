@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-base text-white/90;
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+      Arial, sans-serif;
+    /* Subtle layered glow on the near-black base for depth. */
+    background-image:
+      radial-gradient(
+        1200px 600px at 80% -10%,
+        rgba(255, 255, 255, 0.04),
+        transparent 60%
+      ),
+      radial-gradient(
+        900px 500px at -10% 110%,
+        rgba(255, 255, 255, 0.03),
+        transparent 60%
+      );
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  /* Thin, monochrome scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  /* Elevated glassy surface used for cards, navbar, modals. */
+  .glass {
+    @apply bg-surface/80 border border-line shadow-card backdrop-blur-xl;
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0) 35%
+      );
+  }
+
+  .card {
+    @apply glass rounded-2xl;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-line bg-black/40 px-3 py-2 text-sm text-white
+      placeholder:text-white/30 outline-none transition
+      focus:border-white/25 focus:ring-2 focus:ring-white/10;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-white/45;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm
+      font-medium transition disabled:cursor-not-allowed disabled:opacity-50
+      focus:outline-none focus:ring-2 focus:ring-white/20;
+  }
+
+  .btn-primary {
+    @apply btn bg-white text-black hover:bg-white/90 active:bg-white/80;
+  }
+
+  .btn-ghost {
+    @apply btn border border-line bg-white/[0.03] text-white/80
+      hover:bg-white/[0.07] hover:text-white;
+  }
+
+  .btn-danger {
+    @apply btn border border-rose-500/30 bg-rose-500/10 text-rose-300
+      hover:bg-rose-500/20;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium;
+  }
+}
