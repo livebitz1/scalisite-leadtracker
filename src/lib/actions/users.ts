@@ -62,19 +62,41 @@ export async function deleteMember(
 
   const target = await prisma.user.findUnique({
     where: { id },
-    include: { _count: { select: { assignedLeads: true } } },
+    include: { _count: { select: { assignedLeads: true, createdLeads: true } } },
   });
   if (!target) return { error: "User not found." };
 
-  if (target._count.assignedLeads > 0) {
-    return {
-      error: `Reassign this member's ${target._count.assignedLeads} lead(s) before deleting them.`,
-    };
-  }
+  const leadCount = target._count.assignedLeads;
 
-  await prisma.user.delete({ where: { id } });
+  // Removing a member must not lose their leads. Reassign every lead they own
+  // (assigned or created) to the admin performing the removal, then delete the
+  // member. Their notes and activity history are preserved — Postgres sets the
+  // author/actor to NULL (rendered as "Removed member") via onDelete: SetNull.
+  await prisma.$transaction([
+    prisma.lead.updateMany({
+      where: { assignedToId: id },
+      data: { assignedToId: user.id },
+    }),
+    prisma.lead.updateMany({
+      where: { createdById: id },
+      data: { createdById: user.id },
+    }),
+    prisma.user.delete({ where: { id } }),
+  ]);
+
+  // Audit the removal.
+  await prisma.activity.create({
+    data: {
+      action:
+        leadCount > 0
+          ? `removed team member ${target.name} and reassigned ${leadCount} lead${leadCount === 1 ? "" : "s"} to themselves`
+          : `removed team member ${target.name}`,
+      userId: user.id,
+    },
+  });
 
   revalidatePath("/members");
   revalidatePath("/admin7014");
+  revalidatePath("/leads");
   return { ok: true };
 }

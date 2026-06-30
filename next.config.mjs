@@ -1,14 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Trim the JS shipped to the browser for these heavy deps.
   experimental: {
-    // Don't keep dynamic pages (leads, lead detail) in the client-side router
-    // cache. Ensures navigating to a lead always refetches the latest data, so
-    // notes/updates added by other users (e.g. a member's note) show up for the
-    // admin without a hard reload.
+    optimizePackageImports: ["zod"],
+    // Keep visited pages warm in the client router cache so back/forward and
+    // revisits are instant. Freshness after a mutation is handled by optimistic
+    // UI + revalidatePath + router.refresh, so a short cache is safe here.
     staleTimes: {
-      dynamic: 0,
+      dynamic: 30,
+      static: 180,
     },
+  },
+  compiler: {
+    // Drop console.* in production builds.
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
   },
 };
 

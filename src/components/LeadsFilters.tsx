@@ -42,7 +42,7 @@ export default function LeadsFilters({
     <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-center">
       <div className="relative flex-1">
         <svg
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/30"
+          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"
           width="16" height="16" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
         >

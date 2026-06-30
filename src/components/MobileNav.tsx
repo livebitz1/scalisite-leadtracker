@@ -16,10 +16,10 @@ export default function MobileNav({ user }: { user: SessionUser }) {
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-surface/70 backdrop-blur-xl md:hidden">
+    <header className="sticky top-0 z-30 border-b border-line bg-white/80 backdrop-blur-xl md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-md bg-white p-0.5">
+          <div className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-md border border-line bg-white p-0.5">
             <Image
               src="/logo.png"
               alt="ScaliSite"
@@ -28,11 +28,11 @@ export default function MobileNav({ user }: { user: SessionUser }) {
               className="h-full w-full object-contain"
             />
           </div>
-          <span className="text-sm font-semibold text-white">ScaliSite</span>
+          <span className="text-sm font-semibold text-stone-900">ScaliSite</span>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="text-xs text-white/50 hover:text-white"
+          className="text-xs text-stone-500 hover:text-stone-900"
         >
           Sign out
         </button>
@@ -47,8 +47,8 @@ export default function MobileNav({ user }: { user: SessionUser }) {
               href={item.href}
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm transition ${
                 active
-                  ? "bg-white/10 text-white"
-                  : "text-white/55 hover:bg-white/5"
+                  ? "bg-brand-50 font-medium text-brand-700"
+                  : "text-stone-500 hover:bg-stone-100"
               }`}
             >
               {item.label}

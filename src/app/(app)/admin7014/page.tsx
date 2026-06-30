@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/session";
 import PageHeader from "@/components/PageHeader";
 import StatusBadge from "@/components/StatusBadge";
-import { LEAD_STATUSES, STATUS_LABELS, STATUS_STYLES } from "@/lib/constants";
+import { LEAD_STATUSES, STATUS_LABELS, STATUS_BAR_STYLES } from "@/lib/constants";
 import { formatCurrency, timeAgo, initials } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -27,11 +27,11 @@ function StatCard({
 }) {
   return (
     <div className="card p-4 sm:p-5">
-      <div className="text-xs uppercase tracking-wide text-white/40">{label}</div>
-      <div className="mt-2 break-words text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+      <div className="text-xs uppercase tracking-wide text-stone-400">{label}</div>
+      <div className="mt-2 break-words text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
         {value}
       </div>
-      {hint && <div className="mt-1 text-xs text-white/35">{hint}</div>}
+      {hint && <div className="mt-1 text-xs text-stone-400">{hint}</div>}
     </div>
   );
 }
@@ -141,9 +141,9 @@ export default async function DashboardPage() {
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         {/* Leads by status */}
         <div className="card p-6 lg:col-span-2">
-          <h2 className="mb-5 text-sm font-semibold text-white">Leads by status</h2>
+          <h2 className="mb-5 text-sm font-semibold text-stone-900">Leads by status</h2>
           {totalLeads === 0 ? (
-            <p className="text-sm text-white/35">No leads yet.</p>
+            <p className="text-sm text-stone-400">No leads yet.</p>
           ) : (
             <div className="space-y-3">
               {statusCounts.map(({ status, count }) => (
@@ -151,13 +151,13 @@ export default async function DashboardPage() {
                   <div className="w-28 shrink-0">
                     <StatusBadge status={status} />
                   </div>
-                  <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/5">
+                  <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-stone-100">
                     <div
-                      className={`h-full rounded-full ${STATUS_STYLES[status].split(" ")[0]}`}
+                      className={`h-full rounded-full ${STATUS_BAR_STYLES[status]}`}
                       style={{ width: `${(count / maxStatus) * 100}%` }}
                     />
                   </div>
-                  <div className="w-8 shrink-0 text-right text-sm tabular-nums text-white/70">
+                  <div className="w-8 shrink-0 text-right text-sm tabular-nums text-stone-600">
                     {count}
                   </div>
                 </div>
@@ -168,33 +168,33 @@ export default async function DashboardPage() {
 
         {/* Recent activity */}
         <div className="card p-6">
-          <h2 className="mb-5 text-sm font-semibold text-white">Recent activity</h2>
+          <h2 className="mb-5 text-sm font-semibold text-stone-900">Recent activity</h2>
           {recentActivities.length === 0 ? (
-            <p className="text-sm text-white/35">No activity yet.</p>
+            <p className="text-sm text-stone-400">No activity yet.</p>
           ) : (
             <ol className="space-y-4">
               {recentActivities.map((a) => (
                 <li key={a.id} className="flex gap-3">
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-white/5 text-[10px] font-semibold text-white/70">
-                    {initials(a.user.name)}
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-stone-100 text-[10px] font-semibold text-stone-600">
+                    {a.user ? initials(a.user.name) : "—"}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-sm text-white/75">
-                      <span className="font-medium text-white">{a.user.name}</span>{" "}
+                    <p className="text-sm text-stone-700">
+                      <span className="font-medium text-stone-900">{a.user?.name ?? "Removed member"}</span>{" "}
                       {a.action}
                       {a.lead && (
                         <>
                           {" — "}
                           <Link
                             href={`/leads/${a.lead.id}`}
-                            className="text-white/80 underline-offset-2 hover:underline"
+                            className="text-stone-700 underline-offset-2 hover:underline"
                           >
                             {a.lead.name}
                           </Link>
                         </>
                       )}
                     </p>
-                    <p className="text-xs text-white/35">{timeAgo(a.createdAt)}</p>
+                    <p className="text-xs text-stone-400">{timeAgo(a.createdAt)}</p>
                   </div>
                 </li>
               ))}
@@ -206,7 +206,7 @@ export default async function DashboardPage() {
       {/* Per-member performance */}
       <div className="mt-6 card overflow-hidden">
         <div className="border-b border-line px-5 py-4 sm:px-6">
-          <h2 className="text-sm font-semibold text-white">Member performance</h2>
+          <h2 className="text-sm font-semibold text-stone-900">Member performance</h2>
         </div>
 
         {/* Mobile: cards */}
@@ -214,44 +214,44 @@ export default async function DashboardPage() {
           {perMember.map((m) => (
             <div key={m.id} className="px-5 py-4">
               <div className="flex items-center gap-2.5">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-white/5 text-[10px] font-semibold text-white/70">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-stone-100 text-[10px] font-semibold text-stone-600">
                   {initials(m.name)}
                 </span>
-                <span className="truncate font-medium text-white">{m.name}</span>
-                <span className="badge ml-auto border-white/15 bg-white/5 capitalize text-white/55">
+                <span className="truncate font-medium text-stone-900">{m.name}</span>
+                <span className="badge ml-auto border-stone-200 bg-stone-100 capitalize text-stone-500">
                   {m.role.toLowerCase()}
                 </span>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-center">
-                <div className="rounded-lg bg-white/[0.03] py-2">
-                  <div className="text-sm font-semibold tabular-nums text-white">{m.leadCount}</div>
-                  <div className="text-[10px] uppercase tracking-wide text-white/35">Leads</div>
+                <div className="rounded-lg bg-stone-50 py-2">
+                  <div className="text-sm font-semibold tabular-nums text-stone-900">{m.leadCount}</div>
+                  <div className="text-[10px] uppercase tracking-wide text-stone-400">Leads</div>
                 </div>
-                <div className="rounded-lg bg-white/[0.03] py-2">
-                  <div className="text-sm font-semibold tabular-nums text-white">{m.wonCount}</div>
-                  <div className="text-[10px] uppercase tracking-wide text-white/35">Won</div>
+                <div className="rounded-lg bg-stone-50 py-2">
+                  <div className="text-sm font-semibold tabular-nums text-stone-900">{m.wonCount}</div>
+                  <div className="text-[10px] uppercase tracking-wide text-stone-400">Won</div>
                 </div>
-                <div className="rounded-lg bg-white/[0.03] py-2">
-                  <div className="text-sm font-semibold tabular-nums text-white">{m.noteCount}</div>
-                  <div className="text-[10px] uppercase tracking-wide text-white/35">Notes</div>
+                <div className="rounded-lg bg-stone-50 py-2">
+                  <div className="text-sm font-semibold tabular-nums text-stone-900">{m.noteCount}</div>
+                  <div className="text-[10px] uppercase tracking-wide text-stone-400">Notes</div>
                 </div>
-                <div className="rounded-lg bg-white/[0.03] py-2">
-                  <div className="text-sm font-semibold tabular-nums text-white">{formatCurrency(m.pipeline)}</div>
-                  <div className="text-[10px] uppercase tracking-wide text-white/35">Pipeline</div>
+                <div className="rounded-lg bg-stone-50 py-2">
+                  <div className="text-sm font-semibold tabular-nums text-stone-900">{formatCurrency(m.pipeline)}</div>
+                  <div className="text-[10px] uppercase tracking-wide text-stone-400">Pipeline</div>
                 </div>
               </div>
               {m.latestNote && (
                 <Link
                   href={`/leads/${m.latestNote.lead?.id ?? ""}`}
-                  className="mt-3 block rounded-lg border border-line bg-white/[0.02] px-3 py-2"
+                  className="mt-3 block rounded-lg border border-line bg-stone-50 px-3 py-2"
                 >
-                  <div className="text-[10px] uppercase tracking-wide text-white/35">
+                  <div className="text-[10px] uppercase tracking-wide text-stone-400">
                     Latest note
                   </div>
-                  <p className="mt-0.5 line-clamp-2 text-xs text-white/70">
+                  <p className="mt-0.5 line-clamp-2 text-xs text-stone-600">
                     {m.latestNote.content}
                   </p>
-                  <div className="mt-1 truncate text-[11px] text-white/30">
+                  <div className="mt-1 truncate text-[11px] text-stone-400">
                     {m.latestNote.lead ? `on ${m.latestNote.lead.name} · ` : ""}
                     {timeAgo(m.latestNote.createdAt)}
                   </div>
@@ -265,7 +265,7 @@ export default async function DashboardPage() {
         <div className="hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[560px] text-sm">
             <thead>
-              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-white/40">
+              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-stone-400">
                 <th className="px-6 py-3 font-medium">Member</th>
                 <th className="px-6 py-3 font-medium">Role</th>
                 <th className="px-6 py-3 text-right font-medium">Leads</th>
@@ -278,27 +278,27 @@ export default async function DashboardPage() {
               {perMember.map((m) => (
                 <tr
                   key={m.id}
-                  className="border-b border-line/60 last:border-0 hover:bg-white/[0.02]"
+                  className="border-b border-line/60 last:border-0 hover:bg-stone-50"
                 >
                   <td className="max-w-[340px] px-6 py-3.5">
                     <div className="flex items-start gap-2.5">
-                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-white/5 text-[10px] font-semibold text-white/70">
+                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-stone-100 text-[10px] font-semibold text-stone-600">
                         {initials(m.name)}
                       </span>
                       <div className="min-w-0">
-                        <div className="font-medium text-white">{m.name}</div>
+                        <div className="font-medium text-stone-900">{m.name}</div>
                         {m.latestNote ? (
                           <Link
                             href={`/leads/${m.latestNote.lead?.id ?? ""}`}
                             className="group/note mt-0.5 block min-w-0"
                             title={m.latestNote.content}
                           >
-                            <span className="block truncate text-xs text-white/45 group-hover/note:text-white/70">
-                              <span className="text-white/30">“</span>
+                            <span className="block truncate text-xs text-stone-500 group-hover/note:text-stone-600">
+                              <span className="text-stone-400">“</span>
                               {m.latestNote.content}
-                              <span className="text-white/30">”</span>
+                              <span className="text-stone-400">”</span>
                             </span>
-                            <span className="block truncate text-[11px] text-white/30">
+                            <span className="block truncate text-[11px] text-stone-400">
                               {m.latestNote.lead
                                 ? `on ${m.latestNote.lead.name} · `
                                 : ""}
@@ -306,7 +306,7 @@ export default async function DashboardPage() {
                             </span>
                           </Link>
                         ) : (
-                          <div className="mt-0.5 text-xs text-white/25">
+                          <div className="mt-0.5 text-xs text-stone-300">
                             No notes yet
                           </div>
                         )}
@@ -314,20 +314,20 @@ export default async function DashboardPage() {
                     </div>
                   </td>
                   <td className="px-6 py-3.5">
-                    <span className="badge border-white/15 bg-white/5 capitalize text-white/60">
+                    <span className="badge border-stone-200 bg-stone-100 capitalize text-stone-600">
                       {m.role.toLowerCase()}
                     </span>
                   </td>
-                  <td className="px-6 py-3.5 text-right tabular-nums text-white/80">
+                  <td className="px-6 py-3.5 text-right tabular-nums text-stone-700">
                     {m.leadCount}
                   </td>
-                  <td className="px-6 py-3.5 text-right tabular-nums text-white/80">
+                  <td className="px-6 py-3.5 text-right tabular-nums text-stone-700">
                     {m.wonCount}
                   </td>
-                  <td className="px-6 py-3.5 text-right tabular-nums text-white/80">
+                  <td className="px-6 py-3.5 text-right tabular-nums text-stone-700">
                     {m.noteCount}
                   </td>
-                  <td className="px-6 py-3.5 text-right tabular-nums text-white/80">
+                  <td className="px-6 py-3.5 text-right tabular-nums text-stone-700">
                     {formatCurrency(m.pipeline)}
                   </td>
                 </tr>

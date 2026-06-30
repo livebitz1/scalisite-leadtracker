@@ -60,9 +60,9 @@ export default function Sidebar({ user }: { user: SessionUser }) {
   ];
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-line bg-surface/60 px-4 py-6 backdrop-blur-xl md:flex">
+    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-line bg-white/75 px-4 py-6 backdrop-blur-xl md:flex">
       <div className="mb-8 flex items-center gap-3 px-2">
-        <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-white p-1 shadow-glass">
+        <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-line bg-white p-1 shadow-card">
           <Image
             src="/logo.png"
             alt="ScaliSite"
@@ -73,10 +73,10 @@ export default function Sidebar({ user }: { user: SessionUser }) {
           />
         </div>
         <div>
-          <div className="text-sm font-semibold tracking-tight text-white">
+          <div className="text-sm font-semibold tracking-tight text-stone-900">
             ScaliSite
           </div>
-          <div className="text-[11px] text-white/35">Lead Tracker</div>
+          <div className="text-[11px] text-stone-400">Lead Tracker</div>
         </div>
       </div>
 
@@ -90,11 +90,11 @@ export default function Sidebar({ user }: { user: SessionUser }) {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
                 active
-                  ? "bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
-                  : "text-white/55 hover:bg-white/5 hover:text-white/90"
+                  ? "bg-brand-50 font-medium text-brand-700"
+                  : "text-stone-500 hover:bg-stone-100 hover:text-stone-900"
               }`}
             >
-              <span className={active ? "text-white" : "text-white/45"}>
+              <span className={active ? "text-brand-600" : "text-stone-400"}>
                 {item.icon}
               </span>
               {item.label}
@@ -105,21 +105,21 @@ export default function Sidebar({ user }: { user: SessionUser }) {
 
       <div className="mt-4 border-t border-line pt-4">
         <div className="mb-3 flex items-center gap-3 px-1">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/5 text-xs font-semibold text-white/80">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-stone-100 text-xs font-semibold text-stone-700">
             {initials(user.name)}
           </div>
           <div className="min-w-0">
-            <div className="truncate text-sm font-medium text-white">
+            <div className="truncate text-sm font-medium text-stone-900">
               {user.name}
             </div>
-            <div className="text-[11px] capitalize text-white/40">
+            <div className="text-[11px] capitalize text-stone-400">
               {user.role.toLowerCase()}
             </div>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="btn-ghost w-full justify-start text-white/60"
+          className="btn-ghost w-full justify-start text-stone-600"
         >
           <IconLogout />
           Sign out

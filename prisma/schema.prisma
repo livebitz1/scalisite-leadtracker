@@ -79,8 +79,9 @@ model Note {
   leadId String
   lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
 
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id])
+  // Nullable so a note survives its author's removal (author -> "Removed member").
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   @@index([leadId])
 }
@@ -93,8 +94,9 @@ model Activity {
   leadId String?
   lead   Lead?  @relation(fields: [leadId], references: [id], onDelete: Cascade)
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  // Nullable so activity history survives the actor's removal.
+  userId String?
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([leadId])
   @@index([createdAt])

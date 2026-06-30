@@ -17,15 +17,15 @@ export default function CreateMemberForm() {
 
   return (
     <form ref={formRef} action={formAction} className="card p-6">
-      <h2 className="mb-5 text-sm font-semibold text-white">Add team member</h2>
+      <h2 className="mb-5 text-sm font-semibold text-stone-900">Add team member</h2>
 
       {state.error && (
-        <div className="mb-4 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+        <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
           {state.error}
         </div>
       )}
       {state.ok && (
-        <div className="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">
+        <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
           Member created successfully.
         </div>
       )}

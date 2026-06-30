@@ -29,12 +29,12 @@ export default function DeleteMemberButton({
       <button
         type="submit"
         disabled={pending}
-        className="text-xs text-rose-300/80 transition hover:text-rose-300 disabled:opacity-50"
+        className="text-xs font-medium text-rose-600 transition hover:text-rose-700 disabled:opacity-50"
       >
         {pending ? "Removing…" : "Remove"}
       </button>
       {state.error && (
-        <p className="mt-1 max-w-[220px] text-xs text-rose-300/80">
+        <p className="mt-1 max-w-[220px] text-xs text-rose-700">
           {state.error}
         </p>
       )}

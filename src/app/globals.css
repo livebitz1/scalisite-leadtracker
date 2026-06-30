@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @layer base {
@@ -13,20 +13,20 @@
   }
 
   body {
-    @apply bg-base text-white/90;
+    @apply bg-base text-stone-800;
     font-family:
       ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
       Arial, sans-serif;
-    /* Subtle layered glow on the near-black base for depth. */
+    /* Whisper-soft sage wash — calm, never glaring. */
     background-image:
       radial-gradient(
-        1200px 600px at 80% -10%,
-        rgba(255, 255, 255, 0.04),
+        1100px 600px at 85% -10%,
+        rgba(115, 154, 126, 0.07),
         transparent 60%
       ),
       radial-gradient(
-        900px 500px at -10% 110%,
-        rgba(255, 255, 255, 0.03),
+        900px 520px at -10% 110%,
+        rgba(115, 154, 126, 0.06),
         transparent 60%
       );
     background-attachment: fixed;
@@ -34,34 +34,28 @@
   }
 
   ::selection {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(115, 154, 126, 0.22);
   }
 
-  /* Thin, monochrome scrollbars */
+  /* Thin, warm scrollbars */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    scrollbar-color: rgba(41, 37, 36, 0.16) transparent;
   }
   *::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
   *::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(41, 37, 36, 0.14);
     border-radius: 9999px;
   }
 }
 
 @layer components {
-  /* Elevated glassy surface used for cards, navbar, modals. */
+  /* Elevated soft surface used for cards, navbar, modals. */
   .glass {
-    @apply bg-surface/80 border border-line shadow-card backdrop-blur-xl;
-    background-image:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.05) 0%,
-        rgba(255, 255, 255, 0) 35%
-      );
+    @apply border border-line bg-surface/85 shadow-card backdrop-blur-xl;
   }
 
   .card {
@@ -69,33 +63,33 @@
   }
 
   .input {
-    @apply w-full rounded-lg border border-line bg-black/40 px-3 py-2 text-sm text-white
-      placeholder:text-white/30 outline-none transition
-      focus:border-white/25 focus:ring-2 focus:ring-white/10;
+    @apply w-full rounded-lg border border-line bg-surface-raised px-3 py-2 text-sm text-stone-800
+      placeholder:text-stone-400 outline-none transition
+      focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20;
   }
 
   .label {
-    @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-white/45;
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-500;
   }
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm
       font-medium transition disabled:cursor-not-allowed disabled:opacity-50
-      focus:outline-none focus:ring-2 focus:ring-white/20;
+      focus:outline-none focus:ring-2 focus:ring-brand-500/30;
   }
 
   .btn-primary {
-    @apply btn bg-white text-black hover:bg-white/90 active:bg-white/80;
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 active:bg-brand-800;
   }
 
   .btn-ghost {
-    @apply btn border border-line bg-white/[0.03] text-white/80
-      hover:bg-white/[0.07] hover:text-white;
+    @apply btn border border-line bg-surface-raised text-stone-700
+      hover:bg-stone-50 hover:text-stone-900;
   }
 
   .btn-danger {
-    @apply btn border border-rose-500/30 bg-rose-500/10 text-rose-300
-      hover:bg-rose-500/20;
+    @apply btn border border-rose-200 bg-rose-50 text-rose-700
+      hover:bg-rose-100;
   }
 
   .badge {

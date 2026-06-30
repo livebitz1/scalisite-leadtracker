@@ -36,12 +36,12 @@ export default function LeadEditForm({ lead }: { lead: Lead }) {
       <input type="hidden" name="id" value={lead.id} />
 
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-white">Lead details</h2>
+        <h2 className="text-sm font-semibold text-stone-900">Lead details</h2>
         {saved && (
-          <span className="text-xs text-emerald-300/90">Saved ✓</span>
+          <span className="text-xs text-emerald-700">Saved ✓</span>
         )}
         {state.error && (
-          <span className="text-xs text-rose-300">{state.error}</span>
+          <span className="text-xs text-rose-700">{state.error}</span>
         )}
       </div>
 

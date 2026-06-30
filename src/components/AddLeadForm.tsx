@@ -24,7 +24,7 @@ export default function AddLeadForm({
   return (
     <form action={formAction} className="card p-6">
       {state.error && (
-        <div className="mb-5 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+        <div className="mb-5 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
           {state.error}
         </div>
       )}

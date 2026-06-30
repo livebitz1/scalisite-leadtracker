@@ -50,15 +50,15 @@ function LoginForm() {
               priority
             />
           </div>
-          <h1 className="text-xl font-semibold tracking-tight text-white">
+          <h1 className="text-xl font-semibold tracking-tight text-stone-900">
             ScaliSite
           </h1>
-          <p className="mt-1 text-sm text-white/40">Lead Tracker · Sign in</p>
+          <p className="mt-1 text-sm text-stone-400">Lead Tracker · Sign in</p>
         </div>
 
         <form onSubmit={onSubmit} className="card p-6 shadow-glass">
           {error && (
-            <div className="mb-4 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+            <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
               {error}
             </div>
           )}
@@ -66,7 +66,7 @@ function LoginForm() {
           <div className="mb-4">
             <label className="label" htmlFor="email">
               Email
-              <span className="ml-1 normal-case text-white/30">
+              <span className="ml-1 normal-case text-stone-400">
                 — members only
               </span>
             </label>
@@ -102,10 +102,10 @@ function LoginForm() {
           </button>
         </form>
 
-        <p className="mt-4 text-center text-xs text-white/30">
+        <p className="mt-4 text-center text-xs text-stone-400">
           Admins sign in with the password only — leave email blank.
         </p>
-        <p className="mt-2 text-center text-xs text-white/30">
+        <p className="mt-2 text-center text-xs text-stone-400">
           Internal tool · No public sign-up
         </p>
       </div>
@@ -118,7 +118,7 @@ export default function LoginPage() {
     <Suspense
       fallback={
         <main className="flex min-h-screen items-center justify-center px-4">
-          <div className="h-10 w-10 animate-pulse rounded-xl bg-white/10" />
+          <div className="h-10 w-10 animate-pulse rounded-xl bg-stone-100" />
         </main>
       }
     >

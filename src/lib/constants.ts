@@ -27,12 +27,22 @@ export const STATUS_LABELS: Record<LeadStatus, string> = {
   LOST: "Lost",
 };
 
-// Muted, restrained color tints — subtle against the dark monochrome UI.
+// Soft, scannable status pills tuned for the light theme.
 export const STATUS_STYLES: Record<LeadStatus, string> = {
-  NEW: "bg-white/10 text-white/80 border-white/15",
-  CONTACTED: "bg-sky-500/10 text-sky-300/90 border-sky-400/20",
-  QUALIFIED: "bg-violet-500/10 text-violet-300/90 border-violet-400/20",
-  PROPOSAL_SENT: "bg-amber-500/10 text-amber-300/90 border-amber-400/20",
-  WON: "bg-emerald-500/10 text-emerald-300/90 border-emerald-400/20",
-  LOST: "bg-rose-500/10 text-rose-300/90 border-rose-400/20",
+  NEW: "bg-stone-100 text-stone-600 border-stone-200",
+  CONTACTED: "bg-sky-50 text-sky-700 border-sky-200",
+  QUALIFIED: "bg-violet-50 text-violet-700 border-violet-200",
+  PROPOSAL_SENT: "bg-amber-50 text-amber-700 border-amber-200",
+  WON: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  LOST: "bg-rose-50 text-rose-700 border-rose-200",
+};
+
+// Solid fills used for the dashboard "leads by status" bars.
+export const STATUS_BAR_STYLES: Record<LeadStatus, string> = {
+  NEW: "bg-stone-400",
+  CONTACTED: "bg-sky-500",
+  QUALIFIED: "bg-violet-500",
+  PROPOSAL_SENT: "bg-amber-500",
+  WON: "bg-emerald-500",
+  LOST: "bg-rose-500",
 };

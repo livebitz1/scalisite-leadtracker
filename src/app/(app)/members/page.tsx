@@ -37,9 +37,9 @@ export default async function MembersPage() {
         <div className="lg:col-span-3">
           <div className="card overflow-hidden">
             <div className="border-b border-line px-6 py-4">
-              <h2 className="text-sm font-semibold text-white">
+              <h2 className="text-sm font-semibold text-stone-900">
                 Team members
-                <span className="ml-2 text-white/35">{members.length}</span>
+                <span className="ml-2 text-stone-400">{members.length}</span>
               </h2>
             </div>
             <ul>
@@ -49,22 +49,22 @@ export default async function MembersPage() {
                   className="flex items-center justify-between gap-4 border-b border-line/60 px-6 py-4 last:border-0"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-white/5 text-xs font-semibold text-white/75">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-stone-100 text-xs font-semibold text-stone-700">
                       {initials(m.name)}
                     </span>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="truncate font-medium text-white">
+                        <span className="truncate font-medium text-stone-900">
                           {m.name}
                         </span>
-                        <span className="badge border-white/15 bg-white/5 capitalize text-white/55">
+                        <span className="badge border-stone-200 bg-stone-100 capitalize text-stone-500">
                           {m.role.toLowerCase()}
                         </span>
                         {m.id === admin.id && (
-                          <span className="text-[11px] text-white/35">(you)</span>
+                          <span className="text-[11px] text-stone-400">(you)</span>
                         )}
                       </div>
-                      <div className="truncate text-xs text-white/40">
+                      <div className="truncate text-xs text-stone-400">
                         {m.email} · {m._count.assignedLeads} leads · joined{" "}
                         {formatDate(m.createdAt)}
                       </div>
@@ -87,10 +87,10 @@ export default async function MembersPage() {
       {/* Activity log */}
       <div className="mt-6 card overflow-hidden">
         <div className="border-b border-line px-6 py-4">
-          <h2 className="text-sm font-semibold text-white">Activity log</h2>
+          <h2 className="text-sm font-semibold text-stone-900">Activity log</h2>
         </div>
         {activities.length === 0 ? (
-          <p className="px-6 py-8 text-sm text-white/35">No activity recorded yet.</p>
+          <p className="px-6 py-8 text-sm text-stone-400">No activity recorded yet.</p>
         ) : (
           <ul>
             {activities.map((a) => (
@@ -98,22 +98,22 @@ export default async function MembersPage() {
                 key={a.id}
                 className="flex items-center justify-between gap-4 border-b border-line/60 px-6 py-3.5 last:border-0"
               >
-                <p className="text-sm text-white/75">
-                  <span className="font-medium text-white">{a.user.name}</span>{" "}
+                <p className="text-sm text-stone-700">
+                  <span className="font-medium text-stone-900">{a.user?.name ?? "Removed member"}</span>{" "}
                   {a.action}
                   {a.lead && (
                     <>
                       {" — "}
                       <Link
                         href={`/leads/${a.lead.id}`}
-                        className="text-white/80 underline-offset-2 hover:underline"
+                        className="text-stone-700 underline-offset-2 hover:underline"
                       >
                         {a.lead.name}
                       </Link>
                     </>
                   )}
                 </p>
-                <span className="shrink-0 text-xs text-white/35">
+                <span className="shrink-0 text-xs text-stone-400">
                   {formatDateTime(a.createdAt)}
                 </span>
               </li>

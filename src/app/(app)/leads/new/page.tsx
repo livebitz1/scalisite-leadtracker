@@ -20,7 +20,7 @@ export default async function NewLeadPage() {
   return (
     <div className="mx-auto max-w-3xl animate-fade-in">
       <div className="mb-6">
-        <Link href="/leads" className="text-sm text-white/45 hover:text-white">
+        <Link href="/leads" className="text-sm text-stone-500 hover:text-stone-900">
           ← Back to leads
         </Link>
       </div>

@@ -36,8 +36,8 @@ export default function ReassignSelect({
         <label className="label mb-0" htmlFor="assignedToId">
           Assigned member
         </label>
-        {pending && <span className="text-xs text-white/40">Saving…</span>}
-        {saved && <span className="text-xs text-emerald-300/90">Updated ✓</span>}
+        {pending && <span className="text-xs text-stone-400">Saving…</span>}
+        {saved && <span className="text-xs text-emerald-700">Updated ✓</span>}
       </div>
       <select
         id="assignedToId"
@@ -52,7 +52,7 @@ export default function ReassignSelect({
         ))}
       </select>
       {state.error && (
-        <p className="mt-1.5 text-xs text-rose-300">{state.error}</p>
+        <p className="mt-1.5 text-xs text-rose-700">{state.error}</p>
       )}
     </form>
   );
