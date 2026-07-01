@@ -23,6 +23,29 @@ const leadSchema = z.object({
     .transform((v) => (v === undefined || Number.isNaN(v) ? null : v)),
 });
 
+// Lenient schema for creating a lead: every field is optional. Email is only
+// validated when something is actually entered.
+const createLeadSchema = z.object({
+  name: z.string().trim().max(120).optional(),
+  email: z
+    .string()
+    .trim()
+    .max(160)
+    .optional()
+    .refine(
+      (v) => !v || z.string().email().safeParse(v).success,
+      "Enter a valid email, or leave it blank"
+    ),
+  phone: z.string().trim().max(40).optional(),
+  company: z.string().trim().max(120).optional(),
+  source: z.string().trim().max(60).optional(),
+  status: z.enum(LEAD_STATUSES as [LeadStatus, ...LeadStatus[]]).optional(),
+  value: z
+    .union([z.coerce.number().min(0), z.nan()])
+    .optional()
+    .transform((v) => (v === undefined || Number.isNaN(v) ? null : v)),
+});
+
 function parseValue(raw: FormDataEntryValue | null): number | null {
   if (raw === null || raw === "") return null;
   const n = Number(raw);
@@ -38,13 +61,13 @@ export async function createLead(
   const user = await getCurrentUser();
   if (!user) return { error: "Not authenticated." };
 
-  const parsed = leadSchema.safeParse({
+  const parsed = createLeadSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     phone: formData.get("phone"),
     company: formData.get("company"),
     source: formData.get("source"),
-    status: formData.get("status") || "NEW",
+    status: formData.get("status"),
     value: parseValue(formData.get("value")),
   });
 
@@ -59,12 +82,13 @@ export async function createLead(
   const data = parsed.data;
   const lead = await prisma.lead.create({
     data: {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
+      // Fall back so the non-null columns always have a value.
+      name: data.name || "Untitled lead",
+      email: data.email ?? "",
+      phone: data.phone ?? "",
       company: data.company ? data.company : null,
-      source: data.source,
-      status: data.status,
+      source: data.source || "Other",
+      status: data.status ?? "NEW",
       value: data.value,
       assignedToId,
       createdById: user.id,

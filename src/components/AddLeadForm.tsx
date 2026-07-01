@@ -31,24 +31,24 @@ export default function AddLeadForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className="label" htmlFor="name">Name *</label>
-          <input id="name" name="name" required className="input" placeholder="Jane Doe" />
+          <label className="label" htmlFor="name">Name</label>
+          <input id="name" name="name" className="input" placeholder="Jane Doe" />
         </div>
         <div>
           <label className="label" htmlFor="company">Company</label>
           <input id="company" name="company" className="input" placeholder="Acme Inc." />
         </div>
         <div>
-          <label className="label" htmlFor="email">Email *</label>
-          <input id="email" name="email" type="email" required className="input" placeholder="jane@acme.com" />
+          <label className="label" htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" className="input" placeholder="jane@acme.com" />
         </div>
         <div>
-          <label className="label" htmlFor="phone">Phone *</label>
-          <input id="phone" name="phone" required className="input" placeholder="+1 555 123 4567" />
+          <label className="label" htmlFor="phone">Phone</label>
+          <input id="phone" name="phone" className="input" placeholder="+1 555 123 4567" />
         </div>
         <div>
-          <label className="label" htmlFor="source">Source *</label>
-          <select id="source" name="source" required defaultValue="Website" className="input cursor-pointer">
+          <label className="label" htmlFor="source">Source</label>
+          <select id="source" name="source" defaultValue="Website" className="input cursor-pointer">
             {LEAD_SOURCES.map((s) => (
               <option key={s} value={s}>{s}</option>
             ))}

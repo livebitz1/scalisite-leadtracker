@@ -61,8 +61,8 @@ export default async function LeadDetailPage({
             <StatusBadge status={lead.status} />
           </div>
           <p className="mt-1.5 break-words text-sm text-stone-500">
-            {lead.company ? `${lead.company} · ` : ""}
-            {lead.email} · {lead.phone}
+            {[lead.company, lead.email, lead.phone].filter(Boolean).join(" · ") ||
+              "No contact details"}
           </p>
         </div>
         <div className="shrink-0 sm:text-right">
