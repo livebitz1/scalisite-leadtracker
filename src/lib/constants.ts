@@ -11,6 +11,7 @@ export const LEAD_STATUSES: LeadStatus[] = [
 
 export const LEAD_SOURCES = [
   "Instagram",
+  "Ads",
   "Referral",
   "Website",
   "Cold Outreach",

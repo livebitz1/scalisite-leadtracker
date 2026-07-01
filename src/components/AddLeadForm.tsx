@@ -44,7 +44,7 @@ export default function AddLeadForm({
         </div>
         <div>
           <label className="label" htmlFor="phone">Phone</label>
-          <input id="phone" name="phone" className="input" placeholder="+1 555 123 4567" />
+          <input id="phone" name="phone" className="input" placeholder="+91 98765 43210" />
         </div>
         <div>
           <label className="label" htmlFor="source">Source</label>
