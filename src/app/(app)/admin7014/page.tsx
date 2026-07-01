@@ -64,7 +64,7 @@ export default async function DashboardPage() {
     }),
     prisma.activity.findMany({
       orderBy: { createdAt: "desc" },
-      take: 12,
+      take: 10,
       include: {
         user: { select: { name: true } },
         lead: { select: { id: true, name: true } },
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
           {recentActivities.length === 0 ? (
             <p className="text-sm text-stone-400">No activity yet.</p>
           ) : (
-            <ol className="space-y-4">
+            <ol className="max-h-[420px] space-y-4 overflow-y-auto pr-1">
               {recentActivities.map((a) => (
                 <li key={a.id} className="flex gap-3">
                   <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-stone-100 text-[10px] font-semibold text-stone-600">
