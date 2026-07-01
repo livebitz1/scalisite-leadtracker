@@ -56,7 +56,7 @@ export default function LeadsFilters({
         />
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <select
           defaultValue={searchParams.get("status") ?? "all"}
           onChange={(e) => setParam("status", e.target.value)}
@@ -68,6 +68,16 @@ export default function LeadsFilters({
               {STATUS_LABELS[s]}
             </option>
           ))}
+        </select>
+
+        <select
+          defaultValue={searchParams.get("meeting") ?? "all"}
+          onChange={(e) => setParam("meeting", e.target.value)}
+          className="input w-auto cursor-pointer"
+        >
+          <option value="all">All meetings</option>
+          <option value="upcoming">Meeting remaining</option>
+          <option value="none">No meeting scheduled</option>
         </select>
 
         {isAdmin && (

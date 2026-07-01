@@ -7,6 +7,7 @@ import LeadEditForm from "@/components/LeadEditForm";
 import ReassignSelect from "@/components/ReassignSelect";
 import NotesSection from "@/components/NotesSection";
 import FollowupsSection from "@/components/FollowupsSection";
+import MeetingsSection from "@/components/MeetingsSection";
 import { formatCurrency, formatDateTime, timeAgo, initials } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,10 @@ export default async function LeadDetailPage({
       },
       followups: {
         orderBy: { date: "desc" },
+        include: { author: { select: { id: true, name: true } } },
+      },
+      meetings: {
+        orderBy: { date: "asc" },
         include: { author: { select: { id: true, name: true } } },
       },
       activities: {
@@ -82,6 +87,13 @@ export default async function LeadDetailPage({
         {/* Main column */}
         <div className="space-y-6 lg:col-span-2">
           <LeadEditForm lead={lead} />
+
+          {/* Meetings — schedule the next meeting, log past ones */}
+          <MeetingsSection
+            leadId={lead.id}
+            meetings={lead.meetings}
+            currentUser={{ id: user.id, name: user.name, role: user.role }}
+          />
 
           {/* Follow-ups — date, channel, what was discussed, next follow-up */}
           <FollowupsSection

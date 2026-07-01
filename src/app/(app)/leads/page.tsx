@@ -4,10 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
 import PageHeader from "@/components/PageHeader";
 import LeadsFilters from "@/components/LeadsFilters";
+import LeadsOverview from "@/components/LeadsOverview";
 import StatusBadge from "@/components/StatusBadge";
 import EmptyState from "@/components/EmptyState";
 import { LEAD_STATUSES } from "@/lib/constants";
-import { formatCurrency, timeAgo, initials } from "@/lib/format";
+import { formatCurrency, formatDate, timeAgo, initials } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,7 @@ type SearchParams = {
   assignee?: string;
   sort?: string;
   mine?: string;
+  meeting?: string;
 };
 
 export default async function LeadsPage({
@@ -48,15 +50,32 @@ export default async function LeadsPage({
     where.assignedToId = user.id;
   }
 
+  // Filter by whether a lead has a remaining (upcoming) meeting.
+  const now = new Date();
+  if (sp.meeting === "upcoming") {
+    where.meetings = { some: { date: { gte: now } } };
+  } else if (sp.meeting === "none") {
+    where.meetings = { none: { date: { gte: now } } };
+  }
+
   let orderBy: Prisma.LeadOrderByWithRelationInput = { updatedAt: "desc" };
   if (sp.sort === "value") orderBy = { value: "desc" };
   else if (sp.sort === "created") orderBy = { createdAt: "desc" };
 
-  const [leads, members, totalCount] = await Promise.all([
+  const [leads, members, totalCount, overviewLeads] = await Promise.all([
     prisma.lead.findMany({
       where,
       orderBy,
-      include: { assignedTo: { select: { id: true, name: true } } },
+      include: {
+        assignedTo: { select: { id: true, name: true } },
+        // Soonest upcoming meeting, for the "next meeting" badge.
+        meetings: {
+          where: { date: { gte: now } },
+          orderBy: { date: "asc" },
+          take: 1,
+          select: { date: true },
+        },
+      },
     }),
     isAdmin
       ? prisma.user.findMany({
@@ -66,6 +85,15 @@ export default async function LeadsPage({
         })
       : Promise.resolve([]),
     prisma.lead.count(),
+    // Overview stats across all leads (admin only).
+    isAdmin
+      ? prisma.lead.findMany({
+          select: {
+            status: true,
+            _count: { select: { followups: true, meetings: true } },
+          },
+        })
+      : Promise.resolve([]),
   ]);
 
   return (
@@ -82,6 +110,8 @@ export default async function LeadsPage({
           </Link>
         }
       />
+
+      {isAdmin && <LeadsOverview leads={overviewLeads} />}
 
       {!isAdmin && (
         <div className="mb-5 inline-flex rounded-lg border border-line bg-stone-50 p-1 text-sm">
@@ -134,6 +164,11 @@ export default async function LeadsPage({
                   <div className="truncate text-xs text-stone-400">
                     {lead.company || lead.email}
                   </div>
+                  {lead.meetings[0] && (
+                    <span className="badge mt-1.5 border-brand-200 bg-brand-50 text-brand-700">
+                      Next meeting · {formatDate(lead.meetings[0].date)}
+                    </span>
+                  )}
                 </div>
                 <StatusBadge status={lead.status} />
               </div>
@@ -155,7 +190,7 @@ export default async function LeadsPage({
         {/* Desktop / tablet: table */}
         <div className="card hidden overflow-hidden md:block">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[820px] text-sm">
+            <table className="w-full min-w-[940px] text-sm">
               <thead>
                 <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-stone-400">
                   <th className="px-5 py-3 font-medium">Name</th>
@@ -163,6 +198,7 @@ export default async function LeadsPage({
                   <th className="px-5 py-3 font-medium">Status</th>
                   <th className="px-5 py-3 font-medium">Source</th>
                   <th className="px-5 py-3 font-medium">Assigned</th>
+                  <th className="px-5 py-3 font-medium">Next meeting</th>
                   <th className="px-5 py-3 text-right font-medium">Value</th>
                   <th className="px-5 py-3 text-right font-medium">Updated</th>
                 </tr>
@@ -199,6 +235,15 @@ export default async function LeadsPage({
                           {lead.assignedTo.name}
                         </span>
                       </span>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      {lead.meetings[0] ? (
+                        <span className="badge border-brand-200 bg-brand-50 text-brand-700">
+                          {formatDate(lead.meetings[0].date)}
+                        </span>
+                      ) : (
+                        <span className="text-stone-300">—</span>
+                      )}
                     </td>
                     <td className="px-5 py-3.5 text-right tabular-nums text-stone-700">
                       {formatCurrency(lead.value)}

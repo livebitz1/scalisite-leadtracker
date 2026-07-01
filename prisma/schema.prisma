@@ -42,6 +42,7 @@ model User {
   notes          Note[]
   activities     Activity[]
   followups      Followup[]
+  meetings       Meeting[]
 
   @@index([role])
 }
@@ -67,6 +68,7 @@ model Lead {
   notes      Note[]
   activities Activity[]
   followups  Followup[]
+  meetings   Meeting[]
 
   @@index([status])
   @@index([assignedToId])
@@ -86,6 +88,24 @@ model Note {
   author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   @@index([leadId])
+}
+
+model Meeting {
+  id        String   @id @default(cuid())
+  date      DateTime // scheduled meeting date + time
+  title     String // what the meeting is about / what happened
+  location  String? // optional (e.g. Google Meet, Office, Phone)
+  createdAt DateTime @default(now())
+
+  leadId String
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  // Nullable so a meeting survives its author's removal.
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([leadId])
+  @@index([date])
 }
 
 model Followup {
