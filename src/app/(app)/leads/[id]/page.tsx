@@ -6,6 +6,7 @@ import StatusBadge from "@/components/StatusBadge";
 import LeadEditForm from "@/components/LeadEditForm";
 import ReassignSelect from "@/components/ReassignSelect";
 import NotesSection from "@/components/NotesSection";
+import FollowupsSection from "@/components/FollowupsSection";
 import { formatCurrency, formatDateTime, timeAgo, initials } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -27,6 +28,10 @@ export default async function LeadDetailPage({
       notes: {
         orderBy: { createdAt: "desc" },
         include: { author: { select: { name: true, role: true } } },
+      },
+      followups: {
+        orderBy: { date: "desc" },
+        include: { author: { select: { id: true, name: true } } },
       },
       activities: {
         orderBy: { createdAt: "desc" },
@@ -77,6 +82,13 @@ export default async function LeadDetailPage({
         {/* Main column */}
         <div className="space-y-6 lg:col-span-2">
           <LeadEditForm lead={lead} />
+
+          {/* Follow-ups — date, channel, what was discussed, next follow-up */}
+          <FollowupsSection
+            leadId={lead.id}
+            followups={lead.followups}
+            currentUser={{ id: user.id, name: user.name, role: user.role }}
+          />
 
           {/* Notes — optimistic, appears instantly on submit */}
           <NotesSection

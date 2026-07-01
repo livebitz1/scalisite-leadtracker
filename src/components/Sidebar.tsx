@@ -37,6 +37,14 @@ function IconMembers() {
     </svg>
   );
 }
+function IconFollowup() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" /><path d="m9 16 2 2 4-4" />
+    </svg>
+  );
+}
 function IconLogout() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -55,7 +63,10 @@ export default function Sidebar({ user }: { user: SessionUser }) {
       : []),
     { href: "/leads", label: "Leads", icon: <IconLeads /> },
     ...(user.role === "ADMIN"
-      ? [{ href: "/members", label: "Members", icon: <IconMembers /> }]
+      ? [
+          { href: "/followups", label: "Follow-ups", icon: <IconFollowup /> },
+          { href: "/members", label: "Members", icon: <IconMembers /> },
+        ]
       : []),
   ];
 

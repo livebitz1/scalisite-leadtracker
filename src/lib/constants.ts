@@ -19,6 +19,15 @@ export const LEAD_SOURCES = [
   "Other",
 ];
 
+export const FOLLOWUP_CHANNELS = [
+  "Call",
+  "WhatsApp",
+  "Email",
+  "Meeting",
+  "SMS",
+  "Other",
+];
+
 export const STATUS_LABELS: Record<LeadStatus, string> = {
   NEW: "New",
   CONTACTED: "Contacted",

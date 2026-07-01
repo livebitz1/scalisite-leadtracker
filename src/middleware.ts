@@ -9,7 +9,9 @@ export default withAuth(
     const { pathname } = req.nextUrl;
 
     const adminOnly =
-      pathname.startsWith("/admin7014") || pathname.startsWith("/members");
+      pathname.startsWith("/admin7014") ||
+      pathname.startsWith("/followups") ||
+      pathname.startsWith("/members");
 
     if (adminOnly && token?.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/leads", req.url));

@@ -12,7 +12,12 @@ export default function MobileNav({ user }: { user: SessionUser }) {
   const items = [
     ...(user.role === "ADMIN" ? [{ href: "/admin7014", label: "Dashboard" }] : []),
     { href: "/leads", label: "Leads" },
-    ...(user.role === "ADMIN" ? [{ href: "/members", label: "Members" }] : []),
+    ...(user.role === "ADMIN"
+      ? [
+          { href: "/followups", label: "Follow-ups" },
+          { href: "/members", label: "Members" },
+        ]
+      : []),
   ];
 
   return (

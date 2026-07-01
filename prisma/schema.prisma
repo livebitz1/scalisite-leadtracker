@@ -41,6 +41,7 @@ model User {
   createdLeads   Lead[]     @relation("CreatedLeads")
   notes          Note[]
   activities     Activity[]
+  followups      Followup[]
 
   @@index([role])
 }
@@ -65,6 +66,7 @@ model Lead {
 
   notes      Note[]
   activities Activity[]
+  followups  Followup[]
 
   @@index([status])
   @@index([assignedToId])
@@ -84,6 +86,26 @@ model Note {
   author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   @@index([leadId])
+}
+
+model Followup {
+  id        String   @id @default(cuid())
+  date      DateTime // when the follow-up happened
+  channel   String // Call / WhatsApp / Email / Meeting / SMS / Other
+  notes     String // what the follow-up was about
+  nextDate  DateTime? // optional: next scheduled follow-up
+  createdAt DateTime @default(now())
+
+  leadId String
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  // Nullable so a follow-up survives its author's removal.
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([leadId])
+  @@index([date])
+  @@index([nextDate])
 }
 
 model Activity {
