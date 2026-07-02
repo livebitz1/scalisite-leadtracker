@@ -17,7 +17,7 @@ const OPEN_STATUSES: LeadStatus[] = [
   "NEW",
   "CONTACTED",
   "QUALIFIED",
-  "PROPOSAL_SENT",
+  "AGREEMENT_SENT",
 ];
 
 const STAT_ACCENTS = {

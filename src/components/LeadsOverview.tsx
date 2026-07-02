@@ -54,7 +54,7 @@ export default function LeadsOverview({
     total > 0 ? `${Math.round((count / total) * 100)}% of leads` : "0% of leads";
 
   const qualifiedCount = leads.filter((l) => l.status === "QUALIFIED").length;
-  const proposalCount = leads.filter((l) => l.status === "PROPOSAL_SENT").length;
+  const proposalCount = leads.filter((l) => l.status === "AGREEMENT_SENT").length;
   const meetingsBookedCount = leads.filter((l) => l._count.meetings > 0).length;
   const followupsLoggedCount = leads.filter((l) => l._count.followups > 0).length;
 
@@ -71,7 +71,7 @@ export default function LeadsOverview({
             <path d="M20 6 9 17l-5-5" />
           </svg>
         </Stat>
-        <Stat label="Proposal sent" value={String(proposalCount)} hint={percentOfTotal(proposalCount)} accent="amber">
+        <Stat label="Agreement sent" value={String(proposalCount)} hint={percentOfTotal(proposalCount)} accent="amber">
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 4h16v16H4z" /><path d="M8 8h8M8 12h8M8 16h5" />
           </svg>

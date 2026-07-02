@@ -4,7 +4,7 @@ export const LEAD_STATUSES: LeadStatus[] = [
   "NEW",
   "CONTACTED",
   "QUALIFIED",
-  "PROPOSAL_SENT",
+  "AGREEMENT_SENT",
   "WON",
   "LOST",
 ];
@@ -32,7 +32,7 @@ export const STATUS_LABELS: Record<LeadStatus, string> = {
   NEW: "New",
   CONTACTED: "Contacted",
   QUALIFIED: "Qualified",
-  PROPOSAL_SENT: "Proposal Sent",
+  AGREEMENT_SENT: "Agreement Sent",
   WON: "Won",
   LOST: "Lost",
 };
@@ -42,7 +42,7 @@ export const STATUS_STYLES: Record<LeadStatus, string> = {
   NEW: "bg-stone-100 text-stone-600 border-stone-200",
   CONTACTED: "bg-sky-50 text-sky-700 border-sky-200",
   QUALIFIED: "bg-violet-50 text-violet-700 border-violet-200",
-  PROPOSAL_SENT: "bg-amber-50 text-amber-700 border-amber-200",
+  AGREEMENT_SENT: "bg-amber-50 text-amber-700 border-amber-200",
   WON: "bg-emerald-50 text-emerald-700 border-emerald-200",
   LOST: "bg-rose-50 text-rose-700 border-rose-200",
 };
@@ -52,7 +52,7 @@ export const STATUS_BAR_STYLES: Record<LeadStatus, string> = {
   NEW: "bg-stone-400",
   CONTACTED: "bg-sky-500",
   QUALIFIED: "bg-violet-500",
-  PROPOSAL_SENT: "bg-amber-500",
+  AGREEMENT_SENT: "bg-amber-500",
   WON: "bg-emerald-500",
   LOST: "bg-rose-500",
 };
